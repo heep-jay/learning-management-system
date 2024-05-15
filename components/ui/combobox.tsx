@@ -49,9 +49,8 @@ const Combobox = ({ options, value, onChange }: Props) => {
           <CommandEmpty>No option found.</CommandEmpty>
           <CommandGroup>
             {options?.map((option, index) => (
-              <CommandList>
+              <CommandList key={index}>
                 <CommandItem
-                  key={index}
                   // value={option?.value}
                   onSelect={() => {
                     onChange(option?.value === value ? "" : option.value);
