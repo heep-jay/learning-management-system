@@ -21,7 +21,7 @@ const SidebarItem = ({ icon: Icon, href, label }: Prop) => {
   };
   return (
     <button
-      onClick={onClick}
+      onClick={() => onClick()}
       type="button"
       className={cn(
         "flex items-center gap-x-2 text-slate-500 text-sm font-[500] pl-6 transition-all hover:text-slate-600 hover:bg-slate-300/20",
