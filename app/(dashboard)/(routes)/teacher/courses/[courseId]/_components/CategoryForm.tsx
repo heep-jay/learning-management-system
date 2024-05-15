@@ -96,7 +96,7 @@ const CategoryForm = ({ initialData, courseId, options }: Props) => {
               name="categoryId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  {/* <FormLabel>Description</FormLabel> */}
                   <FormControl>
                     <Combobox {...field} options={options} />
                   </FormControl>

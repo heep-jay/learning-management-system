@@ -25,29 +25,6 @@ interface Props {
   onChange: (value: string) => void;
 }
 
-const frameworks = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-];
-
 const Combobox = ({ options, value, onChange }: Props) => {
   const [open, setOpen] = useState(false);
 
@@ -58,15 +35,15 @@ const Combobox = ({ options, value, onChange }: Props) => {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-full justify-between"
         >
           {value
-            ? frameworks?.find((option) => option.value === value)?.label
+            ? options?.find((option) => option.value === value)?.label
             : "Select option..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-full p-0">
         <Command>
           <CommandInput placeholder="Search option..." />
           <CommandEmpty>No option found.</CommandEmpty>
@@ -75,7 +52,7 @@ const Combobox = ({ options, value, onChange }: Props) => {
               <CommandList>
                 <CommandItem
                   key={index}
-                  value={option?.value}
+                  // value={option?.value}
                   onSelect={() => {
                     onChange(option?.value === value ? "" : option.value);
                     setOpen(false);
@@ -99,21 +76,3 @@ const Combobox = ({ options, value, onChange }: Props) => {
 };
 
 export default Combobox;
-
-// import React from "react";
-
-// const Combobox = ({ options, value, onChange }: Props) => {
-//   console.log(options);
-//   return (
-//     <div className="">
-//       {options.map((option) => (
-//         <>
-//           <p>{option.label}</p>
-//           <p>{value}</p>
-//         </>
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default Combobox;
