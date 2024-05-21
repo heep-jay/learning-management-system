@@ -23,6 +23,7 @@ import { Chapter } from "@prisma/client";
 interface Props {
   initialData: Chapter;
   courseId: string;
+  chapterId: string;
 }
 
 const formSchema = z.object({
@@ -30,7 +31,7 @@ const formSchema = z.object({
     message: "Title must be at least 2 characters & is required.",
   }),
 });
-const ChapterTitleForm = ({ initialData, courseId }: Props) => {
+const ChapterTitleForm = ({ initialData, courseId, chapterId }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const router = useRouter();
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -44,10 +45,12 @@ const ChapterTitleForm = ({ initialData, courseId }: Props) => {
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
     try {
-      const response = await axios.patch(`/api/courses/${courseId}`, values);
-      toast.success("Course updated!!");
+      const response = await axios.patch(
+        `/api/courses/${courseId}/chapters/${chapterId}`,
+        values
+      );
+      toast.success("Chapter updated!!");
       toggleEdit();
       router.refresh();
     } catch {
@@ -57,7 +60,7 @@ const ChapterTitleForm = ({ initialData, courseId }: Props) => {
   return (
     <div className="mt-6 bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Course title
+        Chapter title
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>

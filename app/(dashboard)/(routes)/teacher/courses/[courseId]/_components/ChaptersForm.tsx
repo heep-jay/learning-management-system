@@ -46,7 +46,6 @@ const ChaptersForm = ({ initialData, courseId }: Props) => {
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
     try {
       const response = await axios.post(
         `/api/courses/${courseId}/chapters`,

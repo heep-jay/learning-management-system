@@ -13,26 +13,32 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Pencil } from "lucide-react";
 import { useState } from "react";
-
+import { Chapter } from "@prisma/client";
+import Editor from "@/components/Editor";
+import Preview from "@/components/Preview";
 import { cn } from "@/lib/utils";
-import { Course } from "@prisma/client";
-import Combobox from "@/components/ui/combobox";
 
 interface Props {
-  initialData: Course;
+  initialData: Chapter;
   courseId: string;
-  options: { label: string; value: string }[];
+  chapterId: string;
 }
 
 const formSchema = z.object({
-  categoryId: z.string().min(2),
+  description: z.string().min(2, {
+    message: "description must be at least 2 characters & is required.",
+  }),
 });
-
-const CategoryForm = ({ initialData, courseId, options }: Props) => {
+const ChapterDescriptionForm = ({
+  initialData,
+  courseId,
+  chapterId,
+}: Props) => {
   const [isEditing, setIsEditing] = useState(false);
   const router = useRouter();
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -40,50 +46,54 @@ const CategoryForm = ({ initialData, courseId, options }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      categoryId: initialData?.categoryId || "",
+      description: initialData?.description || "",
     },
   });
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const response = await axios.patch(`/api/courses/${courseId}`, values);
-      toast.success("Course updated!!");
+      const response = await axios.patch(
+        `/api/courses/${courseId}/chapters/${chapterId}`,
+        values
+      );
+      toast.success("Chapter updated!!");
       toggleEdit();
       router.refresh();
     } catch {
       toast.error("Something went wrong!");
     }
   };
-
-  const selectedOption = options.find(
-    (option) => option.value === initialData?.categoryId
-  );
   return (
     <div className="mt-6 bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Course category
+        Edit description
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
-              <Pencil className="h-4 w-4  mr-2" />
-              Edit categopry
+              <Pencil className="h-4 w-4  mr-2 text-xs" />
+              Edit description
             </>
           )}
         </Button>
       </div>
+
       {!isEditing && (
-        <p
+        <div
           className={cn(
             "text-sm mt-2",
-            !initialData.categoryId ? "text-slate-500 italic" : ""
+            !initialData.description ? "text-slate-500 italic" : ""
           )}
         >
-          {selectedOption?.label || "No Category"}
-        </p>
+          {!initialData.description && "No description"}
+          {initialData.description && (
+            <Preview value={initialData.description} />
+          )}
+        </div>
       )}
+
       {isEditing && (
         <Form {...form}>
           <form
@@ -92,12 +102,12 @@ const CategoryForm = ({ initialData, courseId, options }: Props) => {
           >
             <FormField
               control={form.control}
-              name="categoryId"
+              name="description"
               render={({ field }) => (
                 <FormItem>
-                  {/* <FormLabel>Description</FormLabel> */}
+                  <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Combobox {...field} options={options} />
+                    <Editor {...field} />
                   </FormControl>
 
                   <FormMessage />
@@ -116,4 +126,4 @@ const CategoryForm = ({ initialData, courseId, options }: Props) => {
   );
 };
 
-export default CategoryForm;
+export default ChapterDescriptionForm;
