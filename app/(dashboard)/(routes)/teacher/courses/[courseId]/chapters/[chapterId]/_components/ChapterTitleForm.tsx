@@ -46,7 +46,7 @@ const ChapterTitleForm = ({ initialData, courseId, chapterId }: Props) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const response = await axios.patch(
+      await axios.patch(
         `/api/courses/${courseId}/chapters/${chapterId}`,
         values
       );

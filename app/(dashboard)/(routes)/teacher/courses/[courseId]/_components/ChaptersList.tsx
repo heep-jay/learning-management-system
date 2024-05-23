@@ -10,6 +10,7 @@ import {
 import { Grid, Grip, Pencil } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import { useRouter } from "next/navigation";
 
 interface Props {
   items: Chapter[];
@@ -19,6 +20,7 @@ interface Props {
 const ChaptersList = ({ items, onEdit, onReorder }: Props) => {
   const [isMounted, setIsMounted] = useState(false);
   const [chapters, setChapters] = useState(items);
+  const router = useRouter();
 
   useEffect(() => {
     setIsMounted(true);
