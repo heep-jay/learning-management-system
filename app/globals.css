@@ -84,3 +84,29 @@ body,
   margin-left: -5px !important;
 }
 @import "@uploadthing/react/styles.css";
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: 0 0 2.5px rgb(3 105 161);
+  border-radius: 17px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  --tw-bg-opacity: 1;
+  border-radius: 16px;
+  height: 9px;
+  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  --tw-border-opacity: 1;
+  border-color: rgb(3 105 161 / var(--tw-border-opacity));
+}
